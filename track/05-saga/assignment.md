@@ -1,5 +1,6 @@
 ---
 slug: saga
+id: 0xghl574lxbq
 type: challenge
 title: 'Exercise 5: The Saga Pattern'
 teaser: Implement compensating transactions so multi-step workflows clean up after
@@ -28,19 +29,23 @@ notes:
 
     Hit **Start** when you're ready.
 tabs:
-- title: Code
+- id: u11qztqfarm6
+  title: Code
   type: code
   hostname: workshop
   path: /workspace/exercise
-- title: Terminal 1 - Worker
+- id: rbqucqebuydn
+  title: Terminal 1 - Worker
   type: terminal
   hostname: workshop
   workdir: /workspace/exercise
-- title: Terminal 2 - Starter
+- id: xchcy2relsph
+  title: Terminal 2 - Starter
   type: terminal
   hostname: workshop
   workdir: /workspace/exercise
-- title: Temporal Web UI
+- id: jx3tjybp7em3
+  title: Temporal Web UI
   type: service
   hostname: workshop
   path: /
