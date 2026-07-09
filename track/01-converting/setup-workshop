@@ -2,8 +2,8 @@
 set -euo pipefail
 
 rm -rf /workspace/exercise /workspace/solution
-cp -r /workspace/exercises/1_converting/practice /workspace/exercise
-cp -r /workspace/exercises/1_converting/solution /workspace/solution
+cp -r /opt/exercises/1_converting/practice /workspace/exercise
+cp -r /opt/exercises/1_converting/solution /workspace/solution
 
 echo "Exercise 1 ready."
 echo "Files are in /workspace/exercise/"

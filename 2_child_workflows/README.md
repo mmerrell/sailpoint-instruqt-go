@@ -1,4 +1,4 @@
-# Lab 1: Child Workflows
+# Exercise 2: Child Workflows
 
 In this lab you will extract inventory reservation into a dedicated child workflow.
 
@@ -33,7 +33,7 @@ Start a local Temporal server if you don't already have one running:
 temporal server start-dev
 ```
 
-Open two terminals and `cd` into `lab1-child-workflows/practice/`.
+Open two terminals and `cd` into `2_child_workflows/practice/`.
 
 Install dependencies (first time only):
 
@@ -122,6 +122,6 @@ has its **own separate event history**, completely independent of the parent.
 
 ## Solution
 
-The complete solution is in `lab1-child-workflows/solution/`. Compare your implementation
+The complete solution is in `2_child_workflows/solution/`. Compare your implementation
 if you get stuck, or run the solution directly to see the expected behavior before you
 start.

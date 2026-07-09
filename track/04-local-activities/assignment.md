@@ -11,7 +11,7 @@ notes:
     no external dependencies. Running them as regular activities wastes two task queue
     round-trips to the Temporal Server per workflow execution.
 
-    At SailPoint's scale (20K+ workflows per day), that is 40K unnecessary Actions.
+    At scale (20K+ orders per day), that is 40K unnecessary Actions.
 
     **Local activities eliminate the round-trip.** They run inside the worker process
     and produce a single `MarkerRecorded` event in the history instead of the
@@ -20,25 +20,24 @@ notes:
     Hit **Start** when you're ready.
 tabs:
 - id: tckpi2a8mwtd
-  title: VS Code
-  type: service
-  hostname: workshop-host
-  path: ?folder=/workspace/exercise&openFile=/workspace/exercise/fulfillment_workflow.go&openFile=/workspace/exercise/local_activities.go
-  port: 8443
+  title: Code
+  type: code
+  hostname: workshop
+  path: /workspace/exercise
 - id: imtw6lyxjpma
   title: Terminal 1 - Worker
   type: terminal
-  hostname: workshop-host
+  hostname: workshop
   workdir: /workspace/exercise
 - id: t11jlutq46l2
   title: Terminal 2 - Starter
   type: terminal
-  hostname: workshop-host
+  hostname: workshop
   workdir: /workspace/exercise
 - id: oocix3bslhma
   title: Temporal Web UI
   type: service
-  hostname: workshop-host
+  hostname: workshop
   path: /
   port: 8080
 difficulty: basic
@@ -48,7 +47,7 @@ enhanced_loading: null
 
 ## Exercise 4: Local Activities
 
-Open **`fulfillment_workflow.go`** and **`local_activities.go`** in VS Code.
+Open **`fulfillment_workflow.go`** and **`local_activities.go`** in the [button label="Code" background="#444CE7"](tab-0) tab.
 The local activity implementations are already in `local_activities.go`.
 Your job is to call them from the workflow using the local activity API.
 
@@ -99,17 +98,19 @@ log.Info("Fraud check passed", "riskScore", riskScore)
 
 ### Part D – Run it
 
-**Terminal 1 - Worker:**
-```
-go run ./cmd/worker/
-```
+1. Click the [button label="Terminal 1 - Worker" background="#444CE7"](tab-1) tab and start the Worker:
 
-**Terminal 2 - Starter:**
-```
-go run ./cmd/starter/
-```
+   ```bash,run
+   go run ./cmd/worker/
+   ```
 
-In the **Web UI**, open `fulfillment-ORD-4001`. Look for `MarkerRecorded` events
+2. Click the [button label="Terminal 2 - Starter" background="#444CE7"](tab-2) tab and run the Starter:
+
+   ```bash,run
+   go run ./cmd/starter/
+   ```
+
+In the [button label="Temporal Web UI" background="#444CE7"](tab-3) tab, open `fulfillment-ORD-4001`. Look for `MarkerRecorded` events
 for the local activities — compare with the `ActivityTaskScheduled` /
 `ActivityTaskStarted` / `ActivityTaskCompleted` triplet for the remote activities.
 

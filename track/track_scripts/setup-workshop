@@ -1,0 +1,42 @@
+#!/bin/bash
+set -euo pipefail
+
+# ─── Track-level setup ────────────────────────────────────────────────────────
+# The sandbox image (ghcr.io/mmerrell/temporal-go-sandbox:latest) already
+# contains Go 1.23, the Temporal CLI, all five exercise directories at
+# /opt/exercises/, and a pre-warmed Go module cache.
+#
+# This script only needs to:
+#   1. Stage the shared workspace skeleton
+#   2. Start the Temporal dev server
+#   3. Wait for it to be healthy
+
+# 1. Stage workspace (exercises populated per-challenge by setup-workshop)
+mkdir -p /workspace
+
+# 2. Start Temporal dev server
+nohup temporal server start-dev \
+    --ui-port 8080 \
+    --ip 0.0.0.0 \
+    --db-filename /workspace/temporal.db \
+    --log-level warn \
+    > /workspace/temporal.log 2>&1 &
+echo $! > /workspace/temporal-server.pid
+
+# 3. Wait for it to be healthy
+echo "Waiting for Temporal server..."
+for i in $(seq 1 60); do
+    if temporal operator cluster health --address 127.0.0.1:7233 >/dev/null 2>&1; then
+        echo "Temporal server ready."
+        break
+    fi
+    sleep 1
+done
+
+# 4. Wire up shell environment (already in image .bashrc, but ensure it's set
+#    for root sessions that may not source /home/user/.bashrc)
+export TEMPORAL_ADDRESS="127.0.0.1:7233"
+echo 'export TEMPORAL_ADDRESS="127.0.0.1:7233"' >> /root/.bashrc
+echo 'alias tl="temporal workflow list"' >> /root/.bashrc
+
+echo "Track setup complete."

@@ -1,0 +1,69 @@
+#!/bin/bash
+EXERCISE_DIR="/workspace/exercise"
+WORKFLOW="$EXERCISE_DIR/fulfillment_workflow.go"
+
+fail() { echo "FAIL: $1"; exit 1; }
+pass() { echo "PASS: $1"; }
+
+if grep -q "_ = fa" "$WORKFLOW"; then
+  fail "fulfillment_workflow.go still has the placeholder '_ = fa'. Implement Parts B and C."
+fi
+pass "Placeholder removed"
+
+if grep -q "NOT_IMPLEMENTED" "$WORKFLOW"; then
+  fail "fulfillment_workflow.go still returns the NOT_IMPLEMENTED placeholder result."
+fi
+pass "NOT_IMPLEMENTED placeholder removed"
+
+if ! grep -q "defer func" "$WORKFLOW"; then
+  fail "fulfillment_workflow.go is missing the deferred compensation func from Part C."
+fi
+pass "Deferred compensation block present"
+
+if ! grep -q "ReserveInventory" "$WORKFLOW"; then
+  fail "fulfillment_workflow.go is not calling ReserveInventory."
+fi
+pass "ReserveInventory called"
+
+if ! grep -q "ProcessPayment" "$WORKFLOW"; then
+  fail "fulfillment_workflow.go is not calling ProcessPayment."
+fi
+pass "ProcessPayment called"
+
+if ! grep -q "DispatchToFulfillment" "$WORKFLOW"; then
+  fail "fulfillment_workflow.go is not calling DispatchToFulfillment."
+fi
+pass "DispatchToFulfillment called"
+
+if ! grep -q "RefundPayment" "$WORKFLOW"; then
+  fail "fulfillment_workflow.go is missing the RefundPayment compensation in the deferred block."
+fi
+pass "RefundPayment compensation present"
+
+if ! grep -q "ReleaseInventory" "$WORKFLOW"; then
+  fail "fulfillment_workflow.go is missing the ReleaseInventory compensation in the deferred block."
+fi
+pass "ReleaseInventory compensation present"
+
+refund_line=$(grep -n "RefundPayment" "$WORKFLOW" | head -1 | cut -d: -f1)
+release_line=$(grep -n "ReleaseInventory" "$WORKFLOW" | head -1 | cut -d: -f1)
+
+if [[ -z "$refund_line" || -z "$release_line" ]]; then
+  fail "Could not verify compensation order. Ensure both RefundPayment and ReleaseInventory are present."
+fi
+
+if [[ "$refund_line" -ge "$release_line" ]]; then
+  fail "Compensations are in the wrong order. RefundPayment (step 2 undo) must come BEFORE ReleaseInventory (step 1 undo) in source. Run compensations in reverse order of the forward steps."
+fi
+pass "Compensation order correct (refund before release)"
+
+echo "Running go build..."
+cd "$EXERCISE_DIR"
+if ! go build ./... 2>&1; then
+  fail "Project does not build. Fix compilation errors above and try again."
+fi
+pass "Project builds successfully"
+
+echo ""
+echo "All checks passed! DispatchToFulfillment fails 30% of the time — run the Starter"
+echo "a few times and look for RefundPayment and ReleaseInventory activity events in the Web UI."

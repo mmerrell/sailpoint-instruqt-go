@@ -22,25 +22,24 @@ notes:
     Hit **Start** when you're ready.
 tabs:
 - id: 56y58nlcwxt4
-  title: VS Code
-  type: service
-  hostname: workshop-host
-  path: ?folder=/workspace/exercise&openFile=/workspace/exercise/inventory_workflow.go&openFile=/workspace/exercise/fulfillment_workflow.go
-  port: 8443
+  title: Code
+  type: code
+  hostname: workshop
+  path: /workspace/exercise
 - id: qz5d4wjoessp
   title: Terminal 1 - Worker
   type: terminal
-  hostname: workshop-host
+  hostname: workshop
   workdir: /workspace/exercise
 - id: 4pxzbmsfqd7x
   title: Terminal 2 - Starter
   type: terminal
-  hostname: workshop-host
+  hostname: workshop
   workdir: /workspace/exercise
 - id: x1l5o9lhrvpd
   title: Temporal Web UI
   type: service
-  hostname: workshop-host
+  hostname: workshop
   path: /
   port: 8080
 difficulty: basic
@@ -50,7 +49,7 @@ enhanced_loading: null
 
 ## Exercise 2: Child Workflows
 
-Open **`inventory_workflow.go`** and **`fulfillment_workflow.go`** in VS Code.
+Open **`inventory_workflow.go`** and **`fulfillment_workflow.go`** in the [button label="Code" background="#444CE7"](tab-0) tab.
 Look for `// TODO` comments — they mark everything you need to implement.
 
 Files are in `/workspace/exercise/`.
@@ -105,17 +104,19 @@ if err := workflow.ExecuteChildWorkflow(childCtx, InventoryReservationWorkflow,
 
 ### Part C – Run it
 
-**Terminal 1 - Worker:**
-```
-go run ./cmd/worker/
-```
+1. Click the [button label="Terminal 1 - Worker" background="#444CE7"](tab-1) tab and start the Worker:
 
-**Terminal 2 - Starter:**
-```
-go run ./cmd/starter/
-```
+   ```bash,run
+   go run ./cmd/worker/
+   ```
 
-Open the **Temporal Web UI** tab. Find both `fulfillment-ORD-1001` and `inventory-ORD-1001`.
+2. Click the [button label="Terminal 2 - Starter" background="#444CE7"](tab-2) tab and run the Starter:
+
+   ```bash,run
+   go run ./cmd/starter/
+   ```
+
+Open the [button label="Temporal Web UI" background="#444CE7"](tab-3) tab. Find both `fulfillment-ORD-1001` and `inventory-ORD-1001`.
 Click into each — notice the child has its **own separate Event History**.
 
 ***

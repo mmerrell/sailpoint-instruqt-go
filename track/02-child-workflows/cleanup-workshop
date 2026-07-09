@@ -1,0 +1,3 @@
+#!/bin/bash
+# Nothing to clean up between challenges — setup-workshop handles it.
+exit 0

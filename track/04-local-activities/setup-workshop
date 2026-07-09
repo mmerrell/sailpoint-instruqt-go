@@ -1,0 +1,9 @@
+#!/bin/bash
+set -euo pipefail
+
+rm -rf /workspace/exercise /workspace/solution
+cp -r /opt/exercises/4_local_activities/practice /workspace/exercise
+cp -r /opt/exercises/4_local_activities/solution /workspace/solution
+
+echo "Exercise 4 ready."
+echo "Files are in /workspace/exercise/"

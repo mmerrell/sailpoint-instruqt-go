@@ -9,8 +9,8 @@ notes:
 - type: text
   contents: |-
     In Exercise 2, the inventory reservation checked warehouses **one at a time** —
-    sequential activity calls. At SailPoint's scale (hundreds of thousands of
-    provisioning workflows per month), that is a real latency problem.
+    sequential activity calls. At scale (thousands of orders per hour), that is a
+    real latency problem.
 
     **This exercise makes all warehouse checks run simultaneously.**
 
@@ -20,25 +20,24 @@ notes:
     Hit **Start** when you're ready.
 tabs:
 - id: 5jelj1nxcokn
-  title: VS Code
-  type: service
-  hostname: workshop-host
-  path: ?folder=/workspace/exercise&openFile=/workspace/exercise/inventory_workflow.go
-  port: 8443
+  title: Code
+  type: code
+  hostname: workshop
+  path: /workspace/exercise
 - id: fegmmnicvsyt
   title: Terminal 1 - Worker
   type: terminal
-  hostname: workshop-host
+  hostname: workshop
   workdir: /workspace/exercise
 - id: axvo0xsy6uje
   title: Terminal 2 - Starter
   type: terminal
-  hostname: workshop-host
+  hostname: workshop
   workdir: /workspace/exercise
 - id: wwlfwt063dys
   title: Temporal Web UI
   type: service
-  hostname: workshop-host
+  hostname: workshop
   path: /
   port: 8080
 difficulty: basic
@@ -48,7 +47,7 @@ enhanced_loading: null
 
 ## Exercise 3: Parallel Activities
 
-Open **`inventory_workflow.go`** in VS Code. Look for `// TODO` comments.
+Open **`inventory_workflow.go`** in the [button label="Code" background="#444CE7"](tab-0) tab. Look for `// TODO` comments.
 
 ***
 
@@ -105,17 +104,19 @@ return "", temporal.NewApplicationError("no stock available for "+sku, "OutOfSto
 
 ### Part D – Run it
 
-**Terminal 1 - Worker:**
-```
-go run ./cmd/worker/
-```
+1. Click the [button label="Terminal 1 - Worker" background="#444CE7"](tab-1) tab and start the Worker:
 
-**Terminal 2 - Starter:**
-```
-go run ./cmd/starter/
-```
+   ```bash,run
+   go run ./cmd/worker/
+   ```
 
-In the **Web UI**, open `inventory-ORD-3001`. Notice the `CheckWarehouseInventory`
+2. Click the [button label="Terminal 2 - Starter" background="#444CE7"](tab-2) tab and run the Starter:
+
+   ```bash,run
+   go run ./cmd/starter/
+   ```
+
+In the [button label="Temporal Web UI" background="#444CE7"](tab-3) tab, open `inventory-ORD-3001`. Notice the `CheckWarehouseInventory`
 activity tasks are scheduled with nearly identical timestamps — all running concurrently.
 Compare with Exercise 2 where they ran one at a time.
 

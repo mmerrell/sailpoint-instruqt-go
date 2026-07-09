@@ -1,0 +1,4 @@
+#!/bin/bash
+cp /workspace/solution/fulfillment_workflow.go /workspace/exercise/fulfillment_workflow.go
+cd /workspace/exercise && go build ./...
+echo "Solution applied. Review fulfillment_workflow.go — note the deferred compensation block."

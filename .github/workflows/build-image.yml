@@ -4,8 +4,11 @@ on:
   push:
     branches: [main]
     paths:
-      - 'lab1-child-workflows/**'
-      - 'lab2-local-and-parallel/**'
+      - '1_converting/**'
+      - '2_child_workflows/**'
+      - '3_parallel_activities/**'
+      - '4_local_activities/**'
+      - '5_saga/**'
       - 'docker/Dockerfile'
       - '.github/workflows/build-image.yml'
   workflow_dispatch:

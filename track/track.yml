@@ -2,9 +2,9 @@ slug: temporal-go-hands-on
 id: thkynjg9lgsp
 title: Temporal Go SDK – Hands-On Lab
 teaser: Build a durable order-fulfillment system with the Temporal Go SDK — activities,
-  child workflows, parallel fan-out, and local activities.
+  child workflows, parallel fan-out, local activities, and the Saga pattern.
 description: |-
-  Four progressive coding challenges using the Temporal Go SDK. Each challenge drops you into a
+  Five progressive coding challenges using the Temporal Go SDK. Each challenge drops you into a
   partially-implemented order fulfillment workflow and asks you to fill in the missing pieces.
 
   **What you'll build:**
@@ -13,6 +13,7 @@ description: |-
   - **Exercise 2 – Child Workflows:** Extract inventory reservation into a dedicated child workflow with its own history and retry boundary.
   - **Exercise 3 – Parallel Activities:** Fan out warehouse checks concurrently with `workflow.Go()` goroutines and a `workflow.Channel`.
   - **Exercise 4 – Local Activities:** Move fast in-process steps to local activities to reduce Temporal Cloud Actions.
+  - **Exercise 5 – Saga Pattern:** Implement compensating transactions so multi-step workflows clean up after themselves on failure.
 
   Each challenge includes a **Web UI** tab so you can watch your workflows execute in real time, and a **Solve** button if you get stuck.
 
@@ -26,7 +27,7 @@ owner: temporal
 developers:
 - marcus.merrell@temporal.io
 idle_timeout: 1800
-timelimit: 7200
+timelimit: 9000
 lab_config:
   sidebar_enabled: true
   feedback_recap_enabled: true

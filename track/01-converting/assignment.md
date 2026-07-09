@@ -19,25 +19,24 @@ notes:
     Hit **Start** when you're ready.
 tabs:
 - id: crr6c0zsxnef
-  title: VS Code
-  type: service
-  hostname: workshop-host
-  path: ?folder=/workspace/exercise&openFile=/workspace/exercise/pipeline.go&openFile=/workspace/exercise/workflow.go
-  port: 8443
+  title: Code
+  type: code
+  hostname: workshop
+  path: /workspace/exercise
 - id: jku51xpzcbvb
   title: Terminal 1 - Worker
   type: terminal
-  hostname: workshop-host
+  hostname: workshop
   workdir: /workspace/exercise
 - id: xzxd14dyoqyy
   title: Terminal 2 - Starter
   type: terminal
-  hostname: workshop-host
+  hostname: workshop
   workdir: /workspace/exercise
 - id: qkcpgjlwvuaf
   title: Temporal Web UI
   type: service
-  hostname: workshop-host
+  hostname: workshop
   path: /
   port: 8080
 difficulty: basic
@@ -47,7 +46,7 @@ enhanced_loading: null
 
 ## Exercise 1: Converting a Workflow
 
-Open **`pipeline.go`** and **`workflow.go`** in VS Code. `pipeline.go` shows the
+Open **`pipeline.go`** and **`workflow.go`** in the [button label="Code" background="#444CE7"](tab-0) tab. `pipeline.go` shows the
 fragile "before Temporal" implementation — read through it to understand what
 each step does. Then open `workflow.go` and implement the TODOs.
 
@@ -103,17 +102,19 @@ return OrderResult{
 
 ### Part D – Run it
 
-**Terminal 1 - Worker:**
-```
-go run ./cmd/worker/
-```
+1. Click the [button label="Terminal 1 - Worker" background="#444CE7"](tab-1) tab and start the Worker:
 
-**Terminal 2 - Starter:**
-```
-go run ./cmd/starter/
-```
+   ```bash,run
+   go run ./cmd/worker/
+   ```
 
-Open the **Temporal Web UI** tab and find `fulfillment-ORD-1001`. Watch the
+2. Click the [button label="Terminal 2 - Starter" background="#444CE7"](tab-2) tab and run the Starter:
+
+   ```bash,run
+   go run ./cmd/starter/
+   ```
+
+Open the [button label="Temporal Web UI" background="#444CE7"](tab-3) tab and find `fulfillment-ORD-1001`. Watch the
 activity retries happen automatically — no retry loops in your code.
 
 Try killing the worker mid-execution (Ctrl+C in Terminal 1) and restarting it.
