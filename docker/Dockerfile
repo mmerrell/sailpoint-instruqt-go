@@ -26,9 +26,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # ─── Temporal CLI ─────────────────────────────────────────────────────────────
-RUN curl -sSf https://temporal.download/cli.sh | sh \
-    && mv /root/.temporalio/bin/temporal /usr/local/bin/temporal \
-    && chmod +x /usr/local/bin/temporal
+# Pinned release tarball, not the curl|sh installer — the installer's install
+# path/shell assumptions aren't reliable inside a non-interactive Docker build.
+ARG TEMPORAL_CLI_VERSION=1.3.0
+RUN curl -sSL \
+    "https://github.com/temporalio/cli/releases/download/v${TEMPORAL_CLI_VERSION}/temporal_cli_${TEMPORAL_CLI_VERSION}_linux_amd64.tar.gz" \
+    | tar -xz -C /usr/local/bin temporal \
+    && chmod +x /usr/local/bin/temporal \
+    && temporal --version
 
 # ─── Non-root user ────────────────────────────────────────────────────────────
 RUN useradd -m -s /bin/bash -u 1001 user

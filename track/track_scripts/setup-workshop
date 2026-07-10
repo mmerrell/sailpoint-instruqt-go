@@ -14,6 +14,15 @@ set -euo pipefail
 # 1. Stage workspace (exercises populated per-challenge by setup-workshop)
 mkdir -p /workspace
 
+# Fail loudly and immediately if the CLI isn't on PATH — don't let a broken
+# image silently limp along until the health-check loop below times out.
+if ! command -v temporal >/dev/null 2>&1; then
+    echo "FATAL: 'temporal' binary not found on PATH. The sandbox image is missing" >&2
+    echo "the Temporal CLI — check the docker/Dockerfile build logs in GitHub Actions." >&2
+    exit 1
+fi
+echo "Using $(temporal --version)"
+
 # 2. Start Temporal dev server
 nohup temporal server start-dev \
     --ui-port 8080 \
@@ -23,15 +32,25 @@ nohup temporal server start-dev \
     > /workspace/temporal.log 2>&1 &
 echo $! > /workspace/temporal-server.pid
 
-# 3. Wait for it to be healthy
+# 3. Wait for it to be healthy — fail loudly (and dump the server log) if it
+# never comes up, instead of silently continuing.
 echo "Waiting for Temporal server..."
+healthy=false
 for i in $(seq 1 60); do
     if temporal operator cluster health --address 127.0.0.1:7233 >/dev/null 2>&1; then
         echo "Temporal server ready."
+        healthy=true
         break
     fi
     sleep 1
 done
+
+if [ "$healthy" != "true" ]; then
+    echo "FATAL: Temporal server did not become healthy within 60s. Last 50 lines of" >&2
+    echo "/workspace/temporal.log:" >&2
+    tail -n 50 /workspace/temporal.log >&2 || echo "(log file not found)" >&2
+    exit 1
+fi
 
 # 4. Wire up shell environment (already in image .bashrc, but ensure it's set
 #    for root sessions that may not source /home/user/.bashrc)
