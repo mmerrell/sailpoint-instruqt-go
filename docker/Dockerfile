@@ -73,9 +73,6 @@ RUN for dir in \
       (cd "$dir" && go mod download); \
     done
 
-# ─── Install gopls for editor support ─────────────────────────────────────────
-RUN go install golang.org/x/tools/gopls@latest
-
 # ─── Shell environment ────────────────────────────────────────────────────────
 RUN echo 'export PATH=$PATH:/usr/local/go/bin:/home/user/go/bin' >> /home/user/.bashrc \
     && echo 'export TEMPORAL_ADDRESS="${TEMPORAL_ADDRESS:-127.0.0.1:7233}"' >> /home/user/.bashrc \
